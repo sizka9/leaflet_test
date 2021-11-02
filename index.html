@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>leafletテスト</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+  integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+  crossorigin=""/>
+  <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+   integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+   crossorigin=""></script>
+  <script type="text/javascript" src="sample.js"></script>
+  <script>
+    function init() {
+      //地図を表示するdiv要素のidを設定
+      var map = L.map('mapcontainer');
+      //地図の中心とズームレベルを指定
+      map.setView([35.40, 136], 5);
+      //表示するタイルレイヤのURLとAttributionコントロールの記述を設定して、地図に追加する
+      L.tileLayer('https://cyberjapandata.gsi.go.jp/xyz/std/{z}/{x}/{y}.png', {
+          attribution: "<a href='https://maps.gsi.go.jp/development/ichiran.html' target='_blank'>地理院タイル</a>"
+      }).addTo(map);
+    }
+  </script>
+</head>
+<body onload="init()">
+<div class="header"></div>
+<div class="main"></div>
+<div id="map"></div>
+<div id="mapcontainer" style="width:600px;height:600px"></div>
+    <h1>leafletテストしてます</h1>
+    <p>いろいろむずかしいです、英語だから</p>
+
+    <img src="img/sizka.jpg">
+  </div>
+  <div class="footer">
+    <span>Footer</span>
+    <a href="#">リンク</a>
+  </div>
+</body>
+</html>
