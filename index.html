@@ -1,58 +1,84 @@
 <!doctype html>
 <html lang="ja">
+
 <head>
   <meta charset="UTF-8">
   <title>leafletテスト</title>
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
-  integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
-  crossorigin=""/>
+    integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+    crossorigin="" />
   <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
-   integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
-   crossorigin=""></script>
-  <script type="text/javascript" src="sample.js"></script>
+    integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+    crossorigin=""></script>
   <script>
     function init() {
       //地図を表示するdiv要素のidを設定
       var map = L.map('mapcontainer');
       //地図の中心とズームレベルを指定
-      map.setView([35.40, 136], 5);
-      L.control.scale({maxWidth:200,position:'bottomright',imperial:false}).addTo(map);
-      L.control.zoom({position:'bottomleft'}).addTo(map);
+      map.setView([35.8476, 139.63618], 16);
+      L.control.scale({ maxWidth: 200, position: 'bottomright', imperial: false }).addTo(map);
+      L.control.zoom({ position: 'bottomleft' }).addTo(map);
+      //オープンストリートマップのタイル
+      var osm = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+        { attribution: "<a href='http://osm.org/copyright' target='_blank'>OpenStreetMap</a> contributors" });
       //地理院地図の標準地図タイル
-      var gsi =L.tileLayer('https://cyberjapandata.gsi.go.jp/xyz/std/{z}/{x}/{y}.png', 
-        {attribution: "<a href='https://maps.gsi.go.jp/development/ichiran.html' target='_blank'>地理院タイル</a>"});
+      var gsi = L.tileLayer('https://cyberjapandata.gsi.go.jp/xyz/std/{z}/{x}/{y}.png',
+        { attribution: "<a href='https://maps.gsi.go.jp/development/ichiran.html' target='_blank'>地理院タイル</a>" });
       //地理院地図の淡色地図タイル
       var gsipale = L.tileLayer('http://cyberjapandata.gsi.go.jp/xyz/pale/{z}/{x}/{y}.png',
-        {attribution: "<a href='http://portal.cyberjapan.jp/help/termsofuse.html' target='_blank'>地理院タイル</a>"});
-      //オープンストリートマップのタイル
-      var osm = L.tileLayer('http://tile.openstreetmap.jp/{z}/{x}/{y}.png',
-        {  attribution: "<a href='http://osm.org/copyright' target='_blank'>OpenStreetMap</a> contributors" });
+        { attribution: "<a href='http://portal.cyberjapan.jp/help/termsofuse.html' target='_blank'>地理院タイル</a>" });
       //baseMapsオブジェクトのプロパティに3つのタイルを設定
       var baseMaps = {
-        "地理院地図" : gsi,
-        "淡色地図" : gsipale,
-        "オープンストリートマップ"  : osm
+        "オープンストリートマップ": osm,
+        "地理院地図": gsi,
+        "淡色地図": gsipale,
       };
+      var cafeIcon = L.icon({
+        iconUrl: 'img/cafe.png',
+        iconSize: [30,],
+      });
+      var soudanIcon = L.icon({
+        iconUrl: 'img/soudan.png',
+        iconSize: [30,],
+      });      
+      var kouryuIcon = L.icon({
+        iconUrl: 'img/kouryu.png',
+        iconSize: [30,],
+      });
+
       //layersコントロールにbaseMapsオブジェクトを設定して地図に追加
       //コントロール内にプロパティ名が表示される
       L.control.layers(baseMaps).addTo(map);
-      gsi.addTo(map);
+      osm.addTo(map);
+      //ポップアップオブジェクトを作成
+      var popup001 = L.popup().setContent("BABAlabさいたま工房　ようこそ！<br> <img src='img/sizka.jpg' width=100>");
+      var popup002 = L.popup().setContent("ヘルシーカフェのら　ランチやってます！<br> <img src='img/sizka.jpg' width=100>");
+      var popup003 = L.popup().setContent("けやきホームズ　地域包括センターです！<br> <img src='img/sizka.jpg' width=100>");
+
+      //マーカーにポップアップを紐付けする。同時にbindTooltipでツールチップも追加
+      L.marker([35.8476, 139.63618], { icon: kouryuIcon }).bindPopup(popup001).bindTooltip("BABAlabさいたま工房").addTo(map);
+      L.marker([35.8475, 139.63619], { icon: cafeIcon }).bindPopup(popup002).bindTooltip("ヘルシーカフェのら").addTo(map);
+      L.marker([35.84706, 139.63533], { icon: soudanIcon }).bindPopup(popup003).bindTooltip("けやきホームズ").addTo(map);
+
+
     }
+
   </script>
 </head>
+
 <body onload="init()">
-<div class="header"></div>
-<div class="main"></div>
-<div id="map"></div>
-<div id="mapcontainer" style="width:600px;height:600px"></div>
-    <h1>leafletテストしてます</h1>
-    <p>いろいろむずかしいです、英語だから</p>
-    <img src="img/sizka.jpg">
+  <div class="header"></div>
+  <div class="main"></div>
+  <div id="map"></div>
+  <div id="mapcontainer" style="width:600px;height:600px"></div>
+  <h1>leafletテストしてます</h1>
+  <p>いろいろむずかしいです、英語だから</p>
   </div>
   <div class="footer">
     <span>Footer</span>
     <a href="#">リンク</a>
   </div>
 </body>
+
 </html>
